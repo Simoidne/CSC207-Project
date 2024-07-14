@@ -25,6 +25,8 @@ public class Main {
         Calendar calendar = new Calendar();
         calendar.addWeek(weeklyPlanner);
         calendar.displayCalendar();
+
+        ICSConverter.convertToICS(calendar, "calendar.ics");
     }
 }
 

@@ -19,6 +19,10 @@ public class Calendar {
         weeks.removeIf(week -> week.getWeekStartDate().equals(weekStartDate));
     }
 
+    public List<WeeklyPlanner> getWeeks() {
+        return weeks;
+    }
+
     public void displayCalendar() {
         for (WeeklyPlanner week : weeks) {
             System.out.println("Week starting: " + week.getWeekStartDate());
