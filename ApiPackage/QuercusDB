@@ -1,0 +1,20 @@
+package ApiPackage;
+
+import CalenderPackage.Course;
+
+public class QuercusDB implements UserDB{
+    @Override
+    public Course getCourse(String courseId) {
+        return null;
+    }
+
+    @Override
+    public Course[] getCourses() {
+        return new Course[0];
+    }
+
+    @Override
+    public RawSyllabus getSyllabus(String courseId) {
+        return null;
+    }
+}
