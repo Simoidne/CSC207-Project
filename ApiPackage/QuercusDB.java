@@ -1,12 +1,16 @@
 package ApiPackage;
 
 import CalenderPackage.Course;
+import CalenderPackage.Assignment;
+import ApiPackage.SyllabusConversion;
+
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 
 public class QuercusDB implements UserDB{
     private static final String API_TOKEN = System.getenv("API_TOKEN");
@@ -27,7 +31,19 @@ public class QuercusDB implements UserDB{
 
             if (responseBody.getInt("status_code") == 200) {
                 String courseName = responseBody.getString("name");
-                return new Course(courseId, courseName);
+
+                //Finding and Converting the syllabus
+                SyllabusConversion syllabusConverter = new SyllabusConversion();
+                RawSyllabus syllabus = this.getSyllabus(courseId);
+                List<Assignment> assignments = syllabusConverter
+                        .getAssignments(syllabus.dataFormat, syllabus.rawSyllabusData);
+
+                //Setting the assignments found in syllabus into the course
+                Course course  = new Course(courseId, courseName);
+                if (syllabus.syllabusFound){
+                    course.setAssignments(assignments);
+                }
+                return course;
             } else {
                 throw new RuntimeException(responseBody.getString("message"));
             }
@@ -41,7 +57,7 @@ public class QuercusDB implements UserDB{
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("https://q.utoronto.ca/api/v1/courses?include[]=syllabus_body&enrollment_state=active")
+                .url("https://q.utoronto.ca/api/v1/courses?enrollment_state=active")
                 .addHeader("Authorization", API_TOKEN)
                 .addHeader("Content-Type", "application/json")
                 .build();
@@ -68,8 +84,7 @@ public class QuercusDB implements UserDB{
         }
     }
 
-    @Override
-    public RawSyllabus getSyllabus(String courseId) {
+    private RawSyllabus getSyllabus(String courseId) {
         return null;
     }
 }
