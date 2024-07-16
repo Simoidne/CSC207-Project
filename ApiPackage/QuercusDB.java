@@ -36,9 +36,9 @@ public class QuercusDB implements UserDB{
                 SyllabusConversion syllabusConverter = new SyllabusConversion();
                 RawSyllabus syllabus = this.getSyllabus(courseId);
                 List<Assignment> assignments = syllabusConverter
-                        .getAssignments(syllabus.dataFormat, syllabus.rawSyllabusData);
+                        .getAssignments(syllabus);
 
-                //Setting the assignments found in syllabus into the course
+                //Setting the assignments found in syllabus into the course class
                 Course course  = new Course(courseId, courseName);
                 if (syllabus.syllabusFound){
                     course.setAssignments(assignments);
