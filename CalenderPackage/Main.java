@@ -29,6 +29,3 @@ public class Main {
         ICSConverter.convertToICS(calendar, "calendar.ics");
     }
 }
-
-
-

@@ -7,7 +7,7 @@ public class RawSyllabus {
     public boolean syllabusFound;
     public String courseId;
     
-    public RawSyllabus(String dataFormat, String rawSyllabusData, String courseId) {
+    public RawSyllabus(String dataFormat, String rawSyllabusData, String courseId, boolean syllabusFound) {
         this.dataFormat = dataFormat;
         this.rawSyllabusData = rawSyllabusData;
         this.courseId = courseId;

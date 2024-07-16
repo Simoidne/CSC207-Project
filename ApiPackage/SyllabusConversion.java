@@ -1,7 +1,6 @@
 package ApiPackage;
 
 import CalenderPackage.Assignment;
-import CalenderPackage.Course;
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,10 +38,10 @@ public class SyllabusConversion {
             System.out.println(response);
             JSONObject responseBody = new JSONObject(response.body().string());
 
-            if (responseBody.getInt("status_code") == 200) {
+            if (response.code() == 200) {
                 return this.fromJSONtoAssignments(responseBody, syllabus.courseId);
             } else {
-                throw new RuntimeException(responseBody.getString("message"));
+                throw new RuntimeException(response.message());
             }
         }
         catch (IOException | JSONException e) {

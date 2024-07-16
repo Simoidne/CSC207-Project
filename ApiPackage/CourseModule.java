@@ -1,2 +1,4 @@
-package ApiPackage;public class CourseModule {
+package ApiPackage;
+
+public class CourseModule {
 }

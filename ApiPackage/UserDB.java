@@ -2,7 +2,9 @@ package ApiPackage;
 
 import CalenderPackage.Course;
 
+import java.util.List;
+
 public interface UserDB {
     Course getCourse(String courseId);
-    Course[] getCourses();
+    List<Course> getCourses();
 }
