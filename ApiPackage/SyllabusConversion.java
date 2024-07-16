@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class SyllabusConversion {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
 
-        String content = String.format("The following content is the syllabus of a course formatted as a %s: %s. Please return all assignments numbered in the order that they are due along with the due date, in LocalTimeDate format, in the following format: <Assignment Name> <Order> <Due Date>",
+        String content = String.format("The following content is the syllabus of a course formatted as a %s: %s. Please only return all assignments numbered in the order that they are due along with the due date, in LocalTimeDate format (yyyy-MM-ddThh:mm:ss), in the following JSONArray format:\n[{\"name\": \"<Assignment1 Name>\", \"order\": \"<Order>\", \"dueDate\": \"<Due Date>\"},\n{\"name\": \"<Assignment2 Name>\", \"order\": \"<Order>\", \"dueDate\": \"<Due Date>\"},\n...]",
                                         syllabus.dataFormat,
                                         syllabus.rawSyllabusData);
         content = String.format("[{\"parts\": [{\"text\": %s}]}]", content);
@@ -39,7 +40,7 @@ public class SyllabusConversion {
             JSONObject responseBody = new JSONObject(response.body().string());
 
             if (responseBody.getInt("status_code") == 200) {
-                return this.fromJSONtoAssignments(responseBody);
+                return this.fromJSONtoAssignments(responseBody, syllabus.courseId);
             } else {
                 throw new RuntimeException(responseBody.getString("message"));
             }
@@ -49,8 +50,24 @@ public class SyllabusConversion {
         }
     }
 
-    private List<Assignment> fromJSONtoAssignments(JSONObject responseBody) throws JSONException {
+    private List<Assignment> fromJSONtoAssignments(JSONObject responseBody, String courseId) throws JSONException {
         List<Assignment> assignments = new ArrayList<>();
-        String assignmentsArray = responseBody.getString("assignments");
+        String assignmentsString = responseBody.getJSONArray("candidates")
+                .getJSONObject(0)
+                .getJSONObject("content")
+                .getJSONArray("parts")
+                .getJSONObject(0)
+                .getString("text");
+
+        JSONArray assignmentsArray = new JSONArray(assignmentsString);
+        for (int i = 0; i < assignmentsArray.length(); i++) {
+            JSONObject assignmentJSON = assignmentsArray.getJSONObject(i);
+            Assignment assignment = new Assignment(assignmentJSON.getString("order"),
+                    assignmentJSON.getString("name"),
+                    LocalDateTime.parse(assignmentJSON.getString("dueDate")),
+                    courseId);
+            assignments.add(assignment);
+        }
+        return assignments;
     }
 }
