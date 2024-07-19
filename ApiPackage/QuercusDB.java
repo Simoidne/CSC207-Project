@@ -97,6 +97,8 @@ public class QuercusDB implements UserDB{
         return new RawSyllabus(dataFormat, syllabusData, courseId, syllabusFound);
     }
 
+    //A method which find a syllabus in HTML form directly from the course. If it doesn't find one,
+    //it throws a SyllabusNotFoundException
     private String getSyllabusHTML(String courseId) throws SyllabusNotFoundException {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -124,15 +126,19 @@ public class QuercusDB implements UserDB{
         }
     }
 
+    //A method which finds a syllabus attached to a module. Then it will return a file.
+    //If a syllabus is not found, a SyllabusNotFoundException is thrown.
     private File getSyllabusFile(String courseId) throws SyllabusNotFoundException {
         throw new SyllabusNotFoundException();
     }
 
+    //This is a method which returns all modules attached to a course given a courseId.
     private List<CourseModule> getCourseModules(String courseId) {
         return null;
     }
 
-    //Getting List of Courses
+    //This is a method which gets a list of Courses
+    //given a JSONArray of JSONObject formated courses from the API
     private List<Course> compileCourses(JSONArray courses) throws JSONException {
         List<Course> courseList = new ArrayList<>();
         for (int i = 0; i < courses.length(); i++) {
