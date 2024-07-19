@@ -31,8 +31,10 @@ public class SyllabusConversion {
 
         List<Assignment> assignments = new ArrayList<>();
 
+        //Ask chatbotDB to parse the response JSONObject into a usable response in string format
         String assignmentsString = chatbotDB.parseResponse(responseBody);
 
+        //Create a JSONObject called assignmentArray using the chatbot response string
         JSONArray assignmentsArray = new JSONArray(assignmentsString);
         for (int i = 0; i < assignmentsArray.length(); i++) {
             JSONObject assignmentJSON = assignmentsArray.getJSONObject(i);
