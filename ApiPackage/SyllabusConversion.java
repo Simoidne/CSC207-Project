@@ -12,41 +12,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SyllabusConversion {
-    private static final String API_TOKEN = System.getenv("API_TOKEN");
-
     public List<Assignment> getAssignments(RawSyllabus syllabus) {
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
 
+        //Creating the prompt
         String content = String.format("The following content is the syllabus of a course formatted as a %s: %s. Please only return all assignments numbered in the order that they are due along with the due date, in LocalTimeDate format (yyyy-MM-ddThh:mm:ss), in the following JSONArray format:\n[{\"name\": \"<Assignment1 Name>\", \"order\": \"<Order>\", \"dueDate\": \"<Due Date>\"},\n{\"name\": \"<Assignment2 Name>\", \"order\": \"<Order>\", \"dueDate\": \"<Due Date>\"},\n...]",
-                                        syllabus.dataFormat,
-                                        syllabus.rawSyllabusData);
+                syllabus.dataFormat,
+                syllabus.rawSyllabusData);
         content = String.format("[{\"parts\": [{\"text\": %s}]}]", content);
 
         JSONObject requestBody = new JSONObject(String.format("{\"contents\": \"%s\"}", content));
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), requestBody.toString());
+        ChatbotDB chatbotDB = new GeminiDB();
 
-        Request request = new Request.Builder()
-                .url("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent")
-                .method("POST", body)
-                .addHeader("Authorization", API_TOKEN)
-                .addHeader("Content-Type", "application/json")
-                .build();
+        //Get the JSONObject from the API call
+        JSONObject responseBody = chatbotDB.getResponse(requestBody);
 
-        try {
-            Response response = client.newCall(request).execute();
-            System.out.println(response);
-            JSONObject responseBody = new JSONObject(response.body().string());
-
-            if (response.code() == 200) {
-                return this.fromJSONtoAssignments(responseBody, syllabus.courseId);
-            } else {
-                throw new RuntimeException(response.message());
-            }
-        }
-        catch (IOException | JSONException e) {
-            throw new RuntimeException(e);
-        }
+        return this.fromJSONtoAssignments(responseBody, syllabus.courseId);
     }
 
     private List<Assignment> fromJSONtoAssignments(JSONObject responseBody, String courseId) throws JSONException {
