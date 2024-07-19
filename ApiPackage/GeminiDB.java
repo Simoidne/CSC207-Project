@@ -43,4 +43,16 @@ public class GeminiDB implements ChatbotDB {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public String parseResponse(JSONObject response) {
+        String assignmentsString = response.getJSONArray("candidates")
+                .getJSONObject(0)
+                .getJSONObject("content")
+                .getJSONArray("parts")
+                .getJSONObject(0)
+                .getString("text");
+
+        return assignmentsString;
+    }
 }
