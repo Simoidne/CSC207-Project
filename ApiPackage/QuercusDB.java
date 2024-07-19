@@ -68,7 +68,6 @@ public class QuercusDB implements UserDB{
             System.out.println(response);
             JSONArray responseBody = new JSONArray(response.body().string());
 
-            //Question is... "IS THERE EVEN A STATUS CODE??"
             if (response.code() == 200) {
                 return this.compileCourses(responseBody);
             } else {
@@ -90,7 +89,11 @@ public class QuercusDB implements UserDB{
             dataFormat = "html";
         } catch (SyllabusNotFoundException e) {
             //Continue to search modules
-            syllabusFound = false;
+            try {
+                this.getSyllabusFile(courseId);
+            } catch (SyllabusNotFoundException e) {
+                syllabusFound = false;
+            }
         }
         return new RawSyllabus(dataFormat, syllabusData, courseId, syllabusFound);
     }
