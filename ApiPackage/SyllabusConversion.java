@@ -1,12 +1,10 @@
 package ApiPackage;
 
 import CalenderPackage.Assignment;
-import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,16 +13,14 @@ public class SyllabusConversion {
     public List<Assignment> getAssignments(RawSyllabus syllabus) {
 
         //Creating the prompt
-        String content = String.format("The following content is the syllabus of a course formatted as a %s: %s. Please only return all assignments numbered in the order that they are due along with the due date, in LocalTimeDate format (yyyy-MM-ddThh:mm:ss), in the following JSONArray format:\n[{\"name\": \"<Assignment1 Name>\", \"order\": \"<Order>\", \"dueDate\": \"<Due Date>\"},\n{\"name\": \"<Assignment2 Name>\", \"order\": \"<Order>\", \"dueDate\": \"<Due Date>\"},\n...]",
+        String prompt = String.format("The following content is the syllabus of a course formatted as a %s: %s. Please only return all assignments numbered in the order that they are due along with the due date, in LocalTimeDate format (yyyy-MM-ddThh:mm:ss), in the following JSONArray format:\n[{\"name\": \"<Assignment1 Name>\", \"order\": \"<Order>\", \"dueDate\": \"<Due Date>\"},\n{\"name\": \"<Assignment2 Name>\", \"order\": \"<Order>\", \"dueDate\": \"<Due Date>\"},\n...]",
                 syllabus.dataFormat,
                 syllabus.rawSyllabusData);
-        content = String.format("[{\"parts\": [{\"text\": %s}]}]", content);
 
-        JSONObject requestBody = new JSONObject(String.format("{\"contents\": \"%s\"}", content));
         ChatbotDB chatbotDB = new GeminiDB();
 
         //Get the JSONObject from the API call
-        JSONObject responseBody = chatbotDB.getResponse(requestBody);
+        JSONObject responseBody = chatbotDB.getResponse(prompt);
 
         return this.fromJSONtoAssignments(responseBody, syllabus.courseId);
     }
