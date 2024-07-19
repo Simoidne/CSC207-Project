@@ -114,7 +114,7 @@ public class QuercusDB implements UserDB{
 
             if (responseBody.getInt("status_code") == 200) {
                 //Check if the syllabus was found
-                if (responseBody.has("syllabus_body")) {
+                if (!responseBody.has("syllabus_body")) {
                     throw new SyllabusNotFoundException();
                 }
                 return responseBody.getString("syllabus_body");
