@@ -1,4 +1,4 @@
-package ApiPackage;
+package src.main.java.api;
 
 import src.main.java.entity.Course;
 import src.main.java.entity.Assignment;

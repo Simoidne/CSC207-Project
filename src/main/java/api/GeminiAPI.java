@@ -1,4 +1,4 @@
-package ApiPackage;
+package src.main.java.api;
 
 import okhttp3.*;
 import org.json.JSONException;
