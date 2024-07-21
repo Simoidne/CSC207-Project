@@ -1,6 +1,11 @@
 package entity;
 
-import src.main.java.entity.Course;
+
+//import entity.Course;
+//import entity.Assignment;
+//import entity.Event;
+//import entity.PlanItem;
+
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

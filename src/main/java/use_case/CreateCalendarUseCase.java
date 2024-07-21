@@ -3,7 +3,7 @@ package use_case;
 import entity.Calendar;
 import interface_adaptor.ICSConverter;
 import entity.Assignment;
-import src.main.java.entity.Course;
+import entity.Course;
 import entity.Event;
 import entity.WeeklyPlanner;
 

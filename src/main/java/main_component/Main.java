@@ -2,7 +2,7 @@ package main_component;
 
 import interface_adaptor.ICSFileHandler;
 import entity.Assignment;
-import src.main.java.entity.Course;
+import entity.Course;
 import entity.Event;
 import interface_adaptor.ICSConverter;
 import entity.Calendar;
