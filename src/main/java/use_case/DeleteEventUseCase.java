@@ -25,8 +25,7 @@ public class DeleteEventUseCase {
         Calendar calendar = new Calendar();
         try {
             String icsContent = ICSFileHandler.loadICSFile(filePath);
-            // Assuming a method to parse ICS content and populate calendar exists
-            // parseICSContentToCalendar(icsContent, calendar);
+            calendar = ICSConverter.convertICSToCalendar(icsContent);
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Failed to load ICS file", e);
         }
