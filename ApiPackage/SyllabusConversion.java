@@ -10,7 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SyllabusConversion {
-    public List<Assignment> getAssignments(RawSyllabus syllabus) {
+    public List<Assignment> getAssignments(RawSyllabus syllabus) throws SyllabusNotFoundException {
+        //If there is no syllabus then throw SyllabusNotFoundException
+        if (!syllabus.syllabusFound) {
+            throw new SyllabusNotFoundException();
+        }
 
         //Creating the prompt
         String prompt = String.format("The following content is the syllabus of a course formatted as a %s: %s. Please only return all assignments numbered in the order that they are due along with the due date, in LocalTimeDate format (yyyy-MM-ddThh:mm:ss), in the following JSONArray format:\n[{\"name\": \"<Assignment1 Name>\", \"order\": \"<Order>\", \"dueDate\": \"<Due Date>\"},\n{\"name\": \"<Assignment2 Name>\", \"order\": \"<Order>\", \"dueDate\": \"<Due Date>\"},\n...]",

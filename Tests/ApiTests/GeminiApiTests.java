@@ -1,2 +1,8 @@
-package Tests.ApiTests;public class GeminiApiTests {
+package Tests.ApiTests;
+
+import org.mockito.Mockito.*;
+
+
+public class GeminiApiTests {
+    
 }
