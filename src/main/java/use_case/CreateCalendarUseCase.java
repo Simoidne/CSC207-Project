@@ -1,5 +1,6 @@
 package src.main.java.use_case;
 
+import src.main.java.interface_adaptor.ICSConverter;
 import src.main.java.entity.Assignment;
 import src.main.java.entity.Course;
 import src.main.java.entity.Event;
@@ -18,19 +19,11 @@ public class CreateCalendarUseCase {
     private static final Logger logger = Logger.getLogger(CreateCalendarUseCase.class.getName());
 
     public static void main(String[] args) {
-        // Step 1: Ensure the directory within the project exists
+        // Step 1: Get the project root directory
         String projectPath = System.getProperty("user.dir");
-        String outputDirPath = projectPath + File.separator + "output";
-        File outputDir = new File(outputDirPath);
-        if (!outputDir.exists()) {
-            boolean dirCreated = outputDir.mkdir();
-            logger.info("Output directory created: " + dirCreated);
-        } else {
-            logger.info("Output directory already exists.");
-        }
 
-        // Step 2: Specify the file path for the ICS file within the project directory
-        String filePath = outputDirPath + File.separator + "sample1.ics";
+        // Step 2: Specify the file path for the ICS file within the project root directory
+        String filePath = projectPath + File.separator + "sample1.ics";
         logger.info("File path: " + filePath);
 
         // Step 3: Create a course
@@ -85,4 +78,3 @@ public class CreateCalendarUseCase {
         }
     }
 }
-
