@@ -1,12 +1,12 @@
-package src.main.java.main_component;
+package main_component;
 
-import src.main.java.interface_adaptor.ICSFileHandler;
-import src.main.java.entity.Assignment;
+import interface_adaptor.ICSFileHandler;
+import entity.Assignment;
 import src.main.java.entity.Course;
-import src.main.java.entity.Event;
-import src.main.java.interface_adaptor.ICSConverter;
-import src.main.java.use_case.Calendar;
-import src.main.java.use_case.WeeklyPlanner;
+import entity.Event;
+import interface_adaptor.ICSConverter;
+import entity.Calendar;
+import entity.WeeklyPlanner;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

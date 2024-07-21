@@ -1,4 +1,4 @@
-package src.main.java.entity;
+package entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,5 +57,9 @@ public class Course {
      */
     public void addAssignment(Assignment assignment) {
         this.assignments.add(assignment);
+    }
+
+    public void setAssignments(List<Assignment> assignments) {
+        this.assignments = assignments;
     }
 }
