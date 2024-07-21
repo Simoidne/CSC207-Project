@@ -1,68 +1,70 @@
 package src.main.java.main_component;
 
-import src.main.java.entity.Assignment;
-import src.main.java.entity.Course;
-import src.main.java.entity.Event;
-import src.main.java.interface_adaptor.ICSConverter;
-import src.main.java.use_case.Calendar;
-import src.main.java.use_case.WeeklyPlanner;
+import java.io.IOException;
+import java.util.Scanner;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-/**
- * Provides an example demonstrating the usage of Calendar, WeeklyPlanner,
- * Assignment, Event, and ICSConverter classes.
- *
- * This example creates sample courses, assignments, and events, builds a,
- * weekly schedule, and then exports the data to an .ics file.
- */
 public class Main {
     public static void main(String[] args) {
-        //create sample courses
-        Course course1 = new Course("1", "Math 101");
-        Course course2 = new Course("2", "History 101");
+        ICSConverter converter = new ICSConverter();
+        ICSCalendarManager calendarManager = new ICSCalendarManager(converter, "planItems.dat");
+        Scanner scanner = new Scanner(System.in);
 
-        //create sample assignments
-        Assignment assignment1 = new Assignment("1", "Math Homework",
-                LocalDateTime.of(
-                        2024,
-                        7,
-                        5,
-                        23,
-                        59),
-                "1");
-        Assignment assignment2 = new Assignment("2",
-                "History Essay",
-                LocalDateTime.of(
-                        2024,
-                        7,
-                        4,
-                        23,
-                        59),
-                "2");
+        // Load existing data if available
+        try {
+            calendarManager.load();
+            System.out.println("Data loaded from planItems.dat");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("No existing data found. Starting fresh.");
+        }
 
-        //create sample events
-        Event event1 = new Event("1", "Math Lecture", LocalDateTime.of(2024, 7, 3, 10, 0), LocalDateTime.of(2024, 7, 3, 11, 0), "1");
-        Event event2 = new Event("2", "History Lecture", LocalDateTime.of(2024, 7, 2, 10, 0), LocalDateTime.of(2024, 7, 2, 11, 0), "2");
+        boolean running = true;
+        while (running) {
+            System.out.println("Enter command (add/show/save/exit): ");
+            String command = scanner.nextLine();
+            switch (command) {
+                case "add":
+                    // Example of adding a PlanItem
+                    System.out.println("Enter item details...");
+                    // add logic to capture details and create a PlanItem
+                    PlanItem item = new PlanItem(); // create with actual details
+                    converter.addPlanItem(item);
+                    try {
+                        calendarManager.save();
+                        System.out.println("Data saved to planItems.dat");
+                    } catch (IOException e) {
+                        System.out.println("Error saving data: " + e.getMessage());
+                    }
+                    break;
+                case "show":
+                    System.out.println("Plan Items:");
+                    for (PlanItem planItem : converter.getPlanItems()) {
+                        System.out.println(planItem);
+                    }
+                    break;
+                case "save":
+                    try {
+                        calendarManager.save();
+                        System.out.println("Data saved to planItems.dat");
+                    } catch (IOException e) {
+                        System.out.println("Error saving data: " + e.getMessage());
+                    }
+                    break;
+                case "exit":
+                    running = false;
+                    break;
+                default:
+                    System.out.println("Invalid command.");
+            }
+        }
 
-        //create a weekly planner with sample data
-        WeeklyPlanner weeklyPlanner = new WeeklyPlanner(
-                LocalDateTime.of(2024, 7, 1, 0, 0),
-                LocalDateTime.of(2024, 7, 7, 23, 59),
-                List.of(course1, course2),
-                List.of(assignment1, assignment2),
-                List.of(event1, event2)
-        );
+        // Save data before exiting
+        try {
+            calendarManager.save();
+            System.out.println("Data saved to planItems.dat");
+        } catch (IOException e) {
+            System.out.println("Error saving data: " + e.getMessage());
+        }
 
-        //create a calendar and add the week
-        Calendar calendar = new Calendar();
-        calendar.addWeek(weeklyPlanner);
-
-        //Display eth calendar
-        calendar.displayCalendar();
-
-        //Convert the calendar to .ics format and save to a file
-        ICSConverter.convertToICS(calendar, "calendar.ics");
+        scanner.close();
     }
 }
