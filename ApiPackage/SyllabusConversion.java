@@ -1,6 +1,6 @@
 package ApiPackage;
 
-import CalenderPackage.Assignment;
+import src.main.java.entity.Assignment;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
