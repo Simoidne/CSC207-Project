@@ -1,6 +1,6 @@
 package ApiPackage;
 
-import src.main.java.entity.Assignment;
+import entity.Assignment;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

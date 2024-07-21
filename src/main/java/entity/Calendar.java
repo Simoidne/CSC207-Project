@@ -1,9 +1,9 @@
-package src.main.java.use_case;
+package entity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import src.main.java.entity.PlanItem;
+import entity.PlanItem;
 
 
 /**
