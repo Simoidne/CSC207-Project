@@ -1,8 +1,10 @@
-package src.main.java.use_case;
+package use_case;
 
-import src.main.java.interface_adaptor.ICSConverter;
-import src.main.java.entity.Event;
-import src.main.java.interface_adaptor.ICSFileHandler;
+import entity.Calendar;
+import interface_adaptor.ICSConverter;
+import entity.Event;
+import interface_adaptor.ICSFileHandler;
+import entity.WeeklyPlanner;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +29,8 @@ public class AddEventUseCase {
         Calendar calendar = new Calendar();
         try {
             String icsContent = ICSFileHandler.loadICSFile(filePath);
-            calendar = ICSConverter.convertICSToCalendar(icsContent);
+            // Assuming a method to parse ICS content and populate calendar exists
+            // parseICSContentToCalendar(icsContent, calendar);
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Failed to load ICS file", e);
         }
@@ -41,7 +44,7 @@ public class AddEventUseCase {
             calendar.addWeek(weeklyPlanner);
         } else {
             // Add the event to the existing weekly planner
-            calendar.getWeeks().getFirst().getEvents().add(newEvent);
+            calendar.getWeeks().get(0).getEvents().add(newEvent);
         }
 
         // Step 5: Save the updated calendar to the new ICS file
