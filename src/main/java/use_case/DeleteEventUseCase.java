@@ -1,8 +1,8 @@
-package src.main.java.use_case;
+package use_case;
 
-import src.main.java.interface_adaptor.ICSConverter;
-import src.main.java.interface_adaptor.ICSFileHandler;
-import src.main.java.use_case.Calendar;
+import interface_adaptor.ICSConverter;
+import interface_adaptor.ICSFileHandler;
+import entity.Calendar;
 
 import java.io.File;
 import java.io.IOException;

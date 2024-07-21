@@ -1,9 +1,4 @@
-package src.main.java.use_case;
-
-import src.main.java.entity.Assignment;
-import src.main.java.entity.Course;
-import src.main.java.entity.Event;
-import src.main.java.entity.PlanItem;
+package entity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

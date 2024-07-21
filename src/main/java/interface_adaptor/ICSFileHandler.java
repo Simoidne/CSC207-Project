@@ -1,4 +1,4 @@
-package src.main.java.interface_adaptor;
+package interface_adaptor;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -7,7 +7,7 @@ import java.nio.file.StandardOpenOption;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import src.main.java.entity.PlanItem;
+import entity.PlanItem;
 
 public class ICSFileHandler {
     private static final Logger logger = Logger.getLogger(ICSFileHandler.class.getName());

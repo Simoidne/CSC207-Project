@@ -1,7 +1,7 @@
 package ApiPackage;
 
-import src.main.java.entity.Course;
-import src.main.java.entity.Assignment;
+import entity.Course;
+import entity.Assignment;
 
 import okhttp3.*;
 import org.json.JSONArray;
@@ -36,13 +36,18 @@ public class QuercusDB implements UserDB{
                 //Finding and Converting the syllabus
                 SyllabusConversion syllabusConverter = new SyllabusConversion();
                 RawSyllabus syllabus = this.getSyllabus(courseId);
-                List<Assignment> assignments = syllabusConverter
+                try {
+                    List<Assignment> assignments = syllabusConverter
                         .getAssignments(syllabus);
+                } catch (SyllabusNotFoundException e) {
+                    System.out.println(e.getMessage());
+                }
 
                 //Setting the assignments found in syllabus into the course class
                 Course course  = new Course(courseId, courseName);
                 if (syllabus.syllabusFound){
-                    course.AddAssignments(assignments);
+                    //TODO add back the setAssignments method in the course class
+//                    course.setAssignments(assignments);
                 }
                 return course;
             } else {

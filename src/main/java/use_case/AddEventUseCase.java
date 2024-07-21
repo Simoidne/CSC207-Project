@@ -1,9 +1,10 @@
-package src.main.java.use_case;
+package use_case;
 
-import src.main.java.interface_adaptor.ICSConverter;
-import src.main.java.entity.Course;
-import src.main.java.entity.Event;
-import src.main.java.interface_adaptor.ICSFileHandler;
+import entity.Calendar;
+import interface_adaptor.ICSConverter;
+import entity.Event;
+import interface_adaptor.ICSFileHandler;
+import entity.WeeklyPlanner;
 
 import java.io.File;
 import java.io.IOException;

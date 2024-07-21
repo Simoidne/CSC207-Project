@@ -1,8 +1,8 @@
-package src.main.java.interface_adaptor;
+package interface_adaptor;
 
-import src.main.java.use_case.Calendar;
-import src.main.java.entity.PlanItem;
-import src.main.java.use_case.WeeklyPlanner;
+import entity.Calendar;
+import entity.PlanItem;
+import entity.WeeklyPlanner;
 
 import java.io.IOException;
 import java.nio.file.Files;
