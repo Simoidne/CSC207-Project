@@ -1,7 +1,6 @@
 package src.main.java.use_case;
 
 import src.main.java.interface_adaptor.ICSConverter;
-import src.main.java.entity.Course;
 import src.main.java.entity.Event;
 import src.main.java.interface_adaptor.ICSFileHandler;
 
@@ -42,7 +41,7 @@ public class AddEventUseCase {
             calendar.addWeek(weeklyPlanner);
         } else {
             // Add the event to the existing weekly planner
-            calendar.getWeeks().get(0).getEvents().add(newEvent);
+            calendar.getWeeks().getFirst().getEvents().add(newEvent);
         }
 
         // Step 5: Save the updated calendar to the new ICS file

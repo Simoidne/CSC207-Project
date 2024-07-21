@@ -56,7 +56,7 @@ public class ICSConverter {
     public static Calendar convertICSToCalendar(String icsContent) {
         Calendar calendar = new Calendar();
         List<Event> events = new ArrayList<>();
-        WeeklyPlanner weeklyPlanner = null;
+        WeeklyPlanner weeklyPlanner;
 
         String[] lines = icsContent.split("\n");
         for (int i = 0; i < lines.length; i++) {
@@ -87,7 +87,7 @@ public class ICSConverter {
         }
 
         if (!events.isEmpty()) {
-            LocalDateTime weekStart = events.get(0).getStartTime();
+            LocalDateTime weekStart = events.getFirst().getStartTime();
             LocalDateTime weekEnd = weekStart.plusDays(7);
             weeklyPlanner = new WeeklyPlanner(weekStart, weekEnd, new ArrayList<>(), new ArrayList<>(), events);
             calendar.addWeek(weeklyPlanner);
