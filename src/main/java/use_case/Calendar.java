@@ -1,63 +1,52 @@
 package src.main.java.use_case;
 
-import src.main.java.entity.PlanItem;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import src.main.java.entity.PlanItem;
+
 
 /**
- * Represents a calendar that manages multiple weekly schedules.
- * <p>
- * Allows adding and removing weekly planners ({@link WeeklyPlanner})
- * and provides functionality to display the calendar content.
+ * Represents a calendar that contains multiple weeks of plans.
  */
 public class Calendar {
     private List<WeeklyPlanner> weeks;
 
-    /**
-     * Constructs an empty Calendar with empty list of weeks.
-     */
     public Calendar() {
         this.weeks = new ArrayList<>();
     }
 
-    /**
-     * Add  weekly planner to this calendar.
-
-     * @param week The weekly Planner to be added.
-     */
     public void addWeek(WeeklyPlanner week) {
-        weeks.add(week);
+        this.weeks.add(week);
     }
 
-    /**
-     * Removes a weekly planner
-     * @param weekStartDate The starting date and time of the week to be removed
-     */
     public void removeWeek(LocalDateTime weekStartDate) {
-        weeks.removeIf(week -> week.getWeekStartDate().equals(weekStartDate));
+        this.weeks.removeIf(week -> week.getWeekStartDate().equals(weekStartDate));
     }
 
-    /**
-     * Returns an unmodifiable list of the weekly planners.
-     *
-     * @return A list of WeeklyPlanner objects.
-     */
     public List<WeeklyPlanner> getWeeks() {
-        return weeks;
+        return java.util.Collections.unmodifiableList(weeks);
     }
 
-    /**
-     * Displays teh calendar content with the start date and the planned items
-     */
     public void displayCalendar() {
         for (WeeklyPlanner week : weeks) {
-            System.out.println("Week starting: " + week.getWeekStartDate());
+            System.out.println("Week Start Date: " + week.getWeekStartDate());
             List<PlanItem> planItems = week.generateWeeklyPlan();
             for (PlanItem item : planItems) {
-                System.out.println(item.getTitle() + " (" + item.getType() + "): " + item.getStartTime() + " - " + item.getEndTime());
+                System.out.println(item.getTitle() + ": " + item.getStartTime() + " - " + item.getEndTime());
             }
         }
     }
+
+    // Add method to delete an event by title across all weeks
+    public boolean deleteEvent(String title) {
+        boolean deleted = false;
+        for (WeeklyPlanner week : weeks) {
+            if (week.deleteEvent(title)) {
+                deleted = true;
+            }
+        }
+        return deleted;
+    }
 }
+

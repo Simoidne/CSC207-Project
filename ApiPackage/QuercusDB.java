@@ -42,7 +42,7 @@ public class QuercusDB implements UserDB{
                 //Setting the assignments found in syllabus into the course class
                 Course course  = new Course(courseId, courseName);
                 if (syllabus.syllabusFound){
-                    course.setAssignments(assignments);
+                    course.AddAssignments(assignments);
                 }
                 return course;
             } else {

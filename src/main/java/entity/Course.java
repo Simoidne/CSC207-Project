@@ -1,5 +1,6 @@
 package src.main.java.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,25 +14,26 @@ public class Course {
     /**
      * Constructs a new Course object.
      *
-     * @param id The unique identifier for the course.
-     * @param name The name of the course.
+     * @param id    The unique identifier for the course.
+     * @param name  The name of the course.
      */
     public Course(String id, String name) {
         this.id = id;
         this.name = name;
+        this.assignments = new ArrayList<>();
     }
 
     /**
      * Returns the unique identifier of the course.
      *
-     * @return ID of the course.
+     * @return The course ID.
      */
     public String getId() {
         return id;
     }
 
     /**
-     * Returns the name of the course
+     * Returns the name of the course.
      *
      * @return The course name.
      */
@@ -40,20 +42,20 @@ public class Course {
     }
 
     /**
-     * Returns the list of assignments that belongs to the course.
+     * Returns the list of assignments for the course.
      *
-     * @return  A list of {@link Assignment} objects.
+     * @return The list of assignments.
      */
     public List<Assignment> getAssignments() {
         return assignments;
     }
 
     /**
-     * Set the list of assignments for this course.
+     * Adds an assignment to the course.
      *
-     * @param assignments The list of assignments to be associated.
+     * @param assignment The assignment to be added.
      */
-    public void setAssignments(List<Assignment> assignments) {
-        this.assignments = assignments;
+    public void addAssignment(Assignment assignment) {
+        this.assignments.add(assignment);
     }
 }
