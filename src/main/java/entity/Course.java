@@ -58,4 +58,7 @@ public class Course {
     public void addAssignment(Assignment assignment) {
         this.assignments.add(assignment);
     }
+    public void setAssignments(List<Assignment> assignments) {
+        this.assignments = assignments;
+    }
 }
