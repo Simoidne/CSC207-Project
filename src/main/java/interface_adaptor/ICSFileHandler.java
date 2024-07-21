@@ -5,16 +5,29 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import src.main.java.entity.PlanItem;
 
 public class ICSFileHandler {
+    private static final Logger logger = Logger.getLogger(ICSFileHandler.class.getName());
 
     public static String loadICSFile(String filePath) throws IOException {
-        return new String(Files.readAllBytes(Paths.get(filePath)));
+        try {
+            return new String(Files.readAllBytes(Paths.get(filePath)));
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Failed to load ICS file: " + filePath, e);
+            throw e;
+        }
     }
 
     public static void saveICSFile(String filePath, String content) throws IOException {
-        Files.write(Paths.get(filePath), content.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        try {
+            Files.write(Paths.get(filePath), content.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Failed to save ICS file: " + filePath, e);
+            throw e;
+        }
     }
 
     public static void appendPlanItem(StringBuilder icsContent, PlanItem item, DateTimeFormatter formatter) {
@@ -27,3 +40,4 @@ public class ICSFileHandler {
         icsContent.append("END:VEVENT\n");
     }
 }
+

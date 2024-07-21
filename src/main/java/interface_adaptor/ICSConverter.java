@@ -1,18 +1,18 @@
 package src.main.java.interface_adaptor;
 
-import src.main.java.interface_adaptor.ICSFileHandler;
 import src.main.java.use_case.Calendar;
 import src.main.java.entity.PlanItem;
-import src.main.java.use_case.WeeklyPlanner;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ICSConverter {
-
+    private static final Logger logger = Logger.getLogger(ICSConverter.class.getName());
     private static final DateTimeFormatter ICS_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss");
 
     public static void convertToICS(Calendar calendar, String filePath) {
@@ -22,7 +22,7 @@ public class ICSConverter {
             try {
                 icsContent.append(ICSFileHandler.loadICSFile(filePath));
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, "Failed to load existing ICS file", e);
                 return;
             }
         } else {
@@ -44,8 +44,9 @@ public class ICSConverter {
         try {
             ICSFileHandler.saveICSFile(filePath, icsContent.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Failed to save ICS file", e);
         }
     }
 }
+
 
