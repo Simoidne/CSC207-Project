@@ -1,4 +1,4 @@
-package ApiPackage;
+package src.main.java.api;
 
 public class RawSyllabus {
     //dataFormat is either "html" or "pdf file"
