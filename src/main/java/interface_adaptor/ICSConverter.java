@@ -1,4 +1,8 @@
-package CalenderPackage;
+package src.main.java.interface_adaptor;
+
+import src.main.java.entity.PlanItem;
+import src.main.java.use_case.Calendar;
+import src.main.java.use_case.WeeklyPlanner;
 
 import java.io.FileWriter;
 import java.io.IOException;

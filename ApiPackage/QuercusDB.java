@@ -1,7 +1,7 @@
 package ApiPackage;
 
-import CalenderPackage.Course;
-import CalenderPackage.Assignment;
+import src.main.java.entity.Course;
+import src.main.java.entity.Assignment;
 
 import okhttp3.*;
 import org.json.JSONArray;

@@ -1,6 +1,6 @@
 package ApiPackage;
 
-import CalenderPackage.Course;
+import src.main.java.entity.Course;
 
 import java.util.List;
 

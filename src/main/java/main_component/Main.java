@@ -1,4 +1,11 @@
-package CalenderPackage;
+package src.main.java.main_component;
+
+import src.main.java.entity.Assignment;
+import src.main.java.entity.Course;
+import src.main.java.entity.Event;
+import src.main.java.interface_adaptor.ICSConverter;
+import src.main.java.use_case.Calendar;
+import src.main.java.use_case.WeeklyPlanner;
 
 import java.time.LocalDateTime;
 import java.util.List;
