@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class GeminiDB implements ChatbotDB {
+public class GeminiAPI implements ChatbotAPI {
 
     private static final String API_TOKEN = System.getenv("API_TOKEN");
 

@@ -90,7 +90,7 @@ public class QuercusDB implements UserDB{
             //Continue to search modules
             try {
                 this.getSyllabusFile(courseId);
-            } catch (SyllabusNotFoundException e) {
+            } catch (SyllabusNotFoundException e1) {
                 syllabusFound = false;
             }
         }

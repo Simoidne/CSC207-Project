@@ -17,22 +17,22 @@ public class SyllabusConversion {
                 syllabus.dataFormat,
                 syllabus.rawSyllabusData);
 
-        ChatbotDB chatbotDB = new GeminiDB();
+        ChatbotAPI chatbotAPI = new GeminiAPI();
 
         //Get the JSONObject from the API call using the prompt
-        JSONObject responseBody = chatbotDB.getResponse(prompt);
+        JSONObject responseBody = chatbotAPI.getResponse(prompt);
 
-        return this.fromResponseToAssignments(responseBody, syllabus.courseId, chatbotDB);
+        return this.fromResponseToAssignments(responseBody, syllabus.courseId, chatbotAPI);
     }
 
     private List<Assignment> fromResponseToAssignments(JSONObject responseBody,
                                                        String courseId,
-                                                       ChatbotDB chatbotDB) throws JSONException {
+                                                       ChatbotAPI chatbotAPI) throws JSONException {
 
         List<Assignment> assignments = new ArrayList<>();
 
         //Ask chatbotDB to parse the response JSONObject into a usable response in string format
-        String assignmentsString = chatbotDB.parseResponse(responseBody);
+        String assignmentsString = chatbotAPI.parseResponse(responseBody);
 
         //Create a JSONObject called assignmentArray using the chatbot response string
         JSONArray assignmentsArray = new JSONArray(assignmentsString);
