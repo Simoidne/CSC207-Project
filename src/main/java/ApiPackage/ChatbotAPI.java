@@ -2,7 +2,7 @@ package ApiPackage;
 
 import org.json.JSONObject;
 
-interface ChatbotAPI {
+public interface ChatbotAPI {
     //Gets the response from whichever chatbot
     JSONObject getResponse(String prompt);
 
