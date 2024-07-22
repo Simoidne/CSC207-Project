@@ -42,8 +42,10 @@ public class QuercusDB implements UserDB{
                 //Finding and Converting the syllabus
                 SyllabusConversion syllabusConverter = new SyllabusConversion();
                 RawSyllabus syllabus = this.getSyllabus(courseId);
+
+                List<Assignment> assignments = new ArrayList<>();
                 try {
-                    List<Assignment> assignments = syllabusConverter
+                    assignments = syllabusConverter
                         .getAssignments(syllabus);
                 } catch (SyllabusNotFoundException e) {
                     System.out.println(e.getMessage());
@@ -52,8 +54,7 @@ public class QuercusDB implements UserDB{
                 //Setting the assignments found in syllabus into the course class
                 Course course  = new Course(courseId, courseName);
                 if (syllabus.syllabusFound){
-                    //TODO add back the setAssignments method in the course class
-//                    course.setAssignments(assignments);
+                    course.setAssignments(assignments);
                 }
                 return course;
             } else {
