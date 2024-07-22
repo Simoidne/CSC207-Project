@@ -5,8 +5,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class GeminiAPI implements ChatbotAPI {
+
 
     private static final String API_TOKEN = System.getenv("API_TOKEN");
 
