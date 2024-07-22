@@ -38,7 +38,6 @@ public class AddStudySessionUseCase {
         String studySessionTitle = "Study for Math Exam";
         LocalDateTime startTime = LocalDateTime.now().plusDays(1).withHour(10).withMinute(0);
         LocalDateTime endTime = startTime.plusHours(2);
-
         // 2. Create Study Session Event
         Event studySession = new Event(studySessionTitle, studySessionTitle, startTime, endTime, "Study");
 
