@@ -12,10 +12,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class QuercusDB implements UserDB{
-    private static final String API_TOKEN = System.getenv("API_TOKEN");
-
+    private static String API_TOKEN;
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter API Key:");
+        API_TOKEN = scanner.nextLine();
+        scanner.close();
+    }
     @Override
     public Course getCourse(String courseId) {
         OkHttpClient client = new OkHttpClient().newBuilder()

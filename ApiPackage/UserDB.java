@@ -1,6 +1,6 @@
 package ApiPackage;
 
-import src.main.java.entity.Course;
+import entity.Course;
 
 import java.util.List;
 
