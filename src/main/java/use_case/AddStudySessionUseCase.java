@@ -34,7 +34,6 @@ public class AddStudySessionUseCase {
             // Handle the case where the file is not found, e.g., create a new
             // calendar
         }
-
         // 1. User Input (replace with actual input prompts)
         String studySessionTitle = "Study for Math Exam";
         LocalDateTime startTime = LocalDateTime.now().plusDays(1).withHour(10).withMinute(0);
