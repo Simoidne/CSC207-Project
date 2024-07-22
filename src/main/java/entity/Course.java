@@ -1,5 +1,6 @@
 package entity;
 
+import entity.Assignment;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package src.main.java.interface_adaptor;
+package interface_adaptor;
 
 import entity.Calendar;
 import entity.PlanItem;
