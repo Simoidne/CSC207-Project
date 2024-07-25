@@ -95,6 +95,6 @@ public class GeminiApiTests {
     public void TestReturnsCorrectlyFormattedAnswer_HTMLSyllabus() {
         //Using CSC207 syllabus as an example
         // TODO Finish this test
-        RawSyllabus syllabus = new RawSyllabus("HTML", "", "345714", false);
+        RawSyllabus syllabus = new RawSyllabus("HTML", "", "345714", true);
     }
 }

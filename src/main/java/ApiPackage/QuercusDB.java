@@ -40,7 +40,7 @@ public class QuercusDB implements UserDB{
                 String courseName = responseBody.getString("name");
 
                 //Finding and Converting the syllabus
-                SyllabusConversion syllabusConverter = new SyllabusConversion();
+                SyllabusConverter syllabusConverter = new SyllabusConverter();
                 RawSyllabus syllabus = this.getSyllabus(courseId);
 
                 List<Assignment> assignments = new ArrayList<>();
