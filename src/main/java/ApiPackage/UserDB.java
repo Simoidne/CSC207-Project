@@ -5,7 +5,7 @@ import entity.Course;
 import java.util.List;
 
 public interface UserDB {
-    Course getCourse(String courseId);
+    Course getCourse(String courseId) throws NoAPITokenException;
     List<Course> getCourses();
-    //TODO add setAPIToken
+    void setAPIToken(String apiToken);
 }
