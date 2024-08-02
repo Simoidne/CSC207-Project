@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SyllabusConversion {
+public class SyllabusConverter {
     public List<Assignment> getAssignments(RawSyllabus syllabus) throws SyllabusNotFoundException {
         //If there is no syllabus then throw SyllabusNotFoundException
         if (!syllabus.syllabusFound) {

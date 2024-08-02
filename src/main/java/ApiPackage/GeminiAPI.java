@@ -9,14 +9,15 @@ import java.util.Scanner;
 
 public class GeminiAPI implements ChatbotAPI {
 
-
-    private static final String API_TOKEN = System.getenv("API_TOKEN");
+    //TODO get rid of API_TOKEN before git commit
+    private static final String API_TOKEN = "AIzaSyD9g7cbtzG3FfO8qNBUfn3gnHAf5mj-2Qc";
 
     @Override
     public JSONObject getResponse(String prompt) {
-        String content = String.format("[{\"parts\": [{\"text\": %s}]}]", prompt);
+        String content = String.format("{\"role\": \"user\"," +
+                                        "\"parts\": [{\"text\": \"%s\"}]}", prompt);
 
-        JSONObject requestBody = new JSONObject(String.format("{\"contents\": \"%s\"}", content));
+        JSONObject requestBody = new JSONObject(String.format("{\"contents\": %s}", content));
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -24,9 +25,8 @@ public class GeminiAPI implements ChatbotAPI {
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), requestBody.toString());
 
         Request request = new Request.Builder()
-                .url("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent")
+                .url(String.format("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=%s", API_TOKEN))
                 .method("POST", body)
-                .addHeader("Authorization", API_TOKEN)
                 .addHeader("Content-Type", "application/json")
                 .build();
 

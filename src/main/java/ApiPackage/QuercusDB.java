@@ -22,6 +22,9 @@ public class QuercusDB implements UserDB{
         API_TOKEN = scanner.nextLine();
         scanner.close();
     }
+
+    // add a setAPIToken method
+
     @Override
     public Course getCourse(String courseId) {
         OkHttpClient client = new OkHttpClient().newBuilder()
@@ -40,7 +43,7 @@ public class QuercusDB implements UserDB{
                 String courseName = responseBody.getString("name");
 
                 //Finding and Converting the syllabus
-                SyllabusConversion syllabusConverter = new SyllabusConversion();
+                SyllabusConverter syllabusConverter = new SyllabusConverter();
                 RawSyllabus syllabus = this.getSyllabus(courseId);
 
                 List<Assignment> assignments = new ArrayList<>();

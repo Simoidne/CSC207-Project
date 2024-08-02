@@ -1,6 +1,6 @@
 package use_case;
 
-import ApiPackage.SyllabusConversion;
+import ApiPackage.SyllabusConverter;
 import ApiPackage.RawSyllabus;
 import ApiPackage.SyllabusNotFoundException;
 import entity.Assignment;
@@ -14,7 +14,7 @@ public class GetAssignmentsUseCase {
         if (course.getAssignments() != null) {
             return course.getAssignments();
         } else {
-            SyllabusConversion syllabusConverter = new SyllabusConversion();
+            SyllabusConverter syllabusConverter = new SyllabusConverter();
 
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter Syllabus: ");
