@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class GeminiAPI implements ChatbotAPI {
 
     //TODO get rid of API_TOKEN before git commit
-    private static final String API_TOKEN = "AIzaSyD9g7cbtzG3FfO8qNBUfn3gnHAf5mj-2Qc";
+    private static final String API_TOKEN = System.getenv("API_TOKEN");
 
     @Override
     public JSONObject getResponse(String prompt) {
