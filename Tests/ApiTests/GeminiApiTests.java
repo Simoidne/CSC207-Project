@@ -1,7 +1,6 @@
 package Tests.ApiTests;
 
 import ApiPackage.GeminiAPI;
-import ApiPackage.RawSyllabus;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,13 +72,5 @@ public class GeminiApiTests {
         JSONObject responseJSON = testAPI.getResponse("Give me a 1 and nothing else.");
         actualResponse = testAPI.parseResponse(responseJSON).replaceAll("\\s+", "");
         Assert.assertEquals(expected, actualResponse);
-    }
-
-    @Test
-    @DisplayName("Gemini Processes the prompt in HTML format correctly and returns correctly formatted answer")
-    public void TestReturnsCorrectlyFormattedAnswer_HTMLSyllabus() {
-        //Using CSC207 syllabus as an example
-        // TODO Finish this test
-        RawSyllabus syllabus = new RawSyllabus("HTML", "", "345714", true);
     }
 }

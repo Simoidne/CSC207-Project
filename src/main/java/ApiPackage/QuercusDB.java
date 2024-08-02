@@ -16,17 +16,16 @@ import java.util.Scanner;
 
 public class QuercusDB implements UserDB{
     private static String API_TOKEN;
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter API Key:");
-        API_TOKEN = scanner.nextLine();
-        scanner.close();
+
+    public void setAPIToken(String token) {
+        API_TOKEN = token;
     }
 
-    // add a setAPIToken method
-
     @Override
-    public Course getCourse(String courseId) {
+    public Course getCourse(String courseId) throws NoAPITokenException {
+        if (API_TOKEN == null) {
+            throw new NoAPITokenException();
+        }
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
@@ -87,7 +86,7 @@ public class QuercusDB implements UserDB{
             } else {
                 throw new RuntimeException(response.message());
             }
-        } catch (IOException | JSONException e) {
+        } catch (IOException | JSONException | NoAPITokenException e) {
             throw new RuntimeException(e);
         }
     }
@@ -154,7 +153,7 @@ public class QuercusDB implements UserDB{
 
     //This is a method which gets a list of Courses
     //given a JSONArray of JSONObject formated courses from the API
-    private List<Course> compileCourses(JSONArray courses) throws JSONException {
+    private List<Course> compileCourses(JSONArray courses) throws JSONException, NoAPITokenException {
         List<Course> courseList = new ArrayList<>();
         for (int i = 0; i < courses.length(); i++) {
             JSONObject course = courses.getJSONObject(i);
