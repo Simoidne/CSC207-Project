@@ -1,7 +1,7 @@
 package ApiPackage;
 
 public class RawSyllabus {
-    //dataFormat is either "html" or "pdf file"
+    //dataFormat is either "html" or "String"
     public String dataFormat;
     public String rawSyllabusData;
     public boolean syllabusFound;

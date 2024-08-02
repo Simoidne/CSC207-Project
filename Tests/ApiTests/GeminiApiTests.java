@@ -21,58 +21,43 @@ public class GeminiApiTests {
     @DisplayName("Gemini API returns the correctly formatted JSONObject")
     public void TestReturnsCorrectlyFormattedJSON() {
         JSONObject expected = new JSONObject("{\n" +
-                "  \"candidates\": [\n" +
-                "    {\n" +
-                "      \"content\": {\n" +
-                "        \"parts\": [\n" +
-                "          {\n" +
-                "            \"text\": \"1\"\n" +
-                "          }\n" +
-                "        ],\n" +
-                "        \"role\": \"model\"\n" +
-                "      },\n" +
-                "      \"finishReason\": \"STOP\",\n" +
-                "      \"index\": 0,\n" +
-                "      \"safetyRatings\": [\n" +
+                "    \"candidates\": [\n" +
                 "        {\n" +
-                "          \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\",\n" +
-                "          \"probability\": \"NEGLIGIBLE\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"category\": \"HARM_CATEGORY_HATE_SPEECH\",\n" +
-                "          \"probability\": \"NEGLIGIBLE\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"category\": \"HARM_CATEGORY_HARASSMENT\",\n" +
-                "          \"probability\": \"NEGLIGIBLE\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\",\n" +
-                "          \"probability\": \"NEGLIGIBLE\"\n" +
+                "            \"content\": {\n" +
+                "                \"parts\": [\n" +
+                "                    {\n" +
+                "                        \"text\": \"1 \\n\"\n" +
+                "                    }\n" +
+                "                ],\n" +
+                "                \"role\": \"model\"\n" +
+                "            },\n" +
+                "            \"finishReason\": \"STOP\",\n" +
+                "            \"index\": 0,\n" +
+                "            \"safetyRatings\": [\n" +
+                "                {\n" +
+                "                    \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\",\n" +
+                "                    \"probability\": \"NEGLIGIBLE\"\n" +
+                "                },\n" +
+                "                {\n" +
+                "                    \"category\": \"HARM_CATEGORY_HATE_SPEECH\",\n" +
+                "                    \"probability\": \"NEGLIGIBLE\"\n" +
+                "                },\n" +
+                "                {\n" +
+                "                    \"category\": \"HARM_CATEGORY_HARASSMENT\",\n" +
+                "                    \"probability\": \"NEGLIGIBLE\"\n" +
+                "                },\n" +
+                "                {\n" +
+                "                    \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\",\n" +
+                "                    \"probability\": \"NEGLIGIBLE\"\n" +
+                "                }\n" +
+                "            ]\n" +
                 "        }\n" +
-                "      ]\n" +
+                "    ],\n" +
+                "    \"usageMetadata\": {\n" +
+                "        \"promptTokenCount\": 10,\n" +
+                "        \"candidatesTokenCount\": 1,\n" +
+                "        \"totalTokenCount\": 11\n" +
                 "    }\n" +
-                "  ],\n" +
-                "  \"promptFeedback\": {\n" +
-                "    \"safetyRatings\": [\n" +
-                "      {\n" +
-                "        \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\",\n" +
-                "        \"probability\": \"NEGLIGIBLE\"\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"category\": \"HARM_CATEGORY_HATE_SPEECH\",\n" +
-                "        \"probability\": \"NEGLIGIBLE\"\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"category\": \"HARM_CATEGORY_HARASSMENT\",\n" +
-                "        \"probability\": \"NEGLIGIBLE\"\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\",\n" +
-                "        \"probability\": \"NEGLIGIBLE\"\n" +
-                "      }\n" +
-                "    ]\n" +
-                "  }\n" +
                 "}");
 
         JSONObject actualResponseJSON = testAPI.getResponse("Give me a 1 and nothing else.");
@@ -86,7 +71,7 @@ public class GeminiApiTests {
         String actualResponse;
 
         JSONObject responseJSON = testAPI.getResponse("Give me a 1 and nothing else.");
-        actualResponse = testAPI.parseResponse(responseJSON);
+        actualResponse = testAPI.parseResponse(responseJSON).replaceAll("\\s+", "");
         Assert.assertEquals(expected, actualResponse);
     }
 

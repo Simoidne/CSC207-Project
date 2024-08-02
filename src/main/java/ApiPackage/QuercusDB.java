@@ -22,6 +22,9 @@ public class QuercusDB implements UserDB{
         API_TOKEN = scanner.nextLine();
         scanner.close();
     }
+
+    // add a setAPIToken method
+
     @Override
     public Course getCourse(String courseId) {
         OkHttpClient client = new OkHttpClient().newBuilder()
