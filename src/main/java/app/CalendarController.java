@@ -1,60 +1,77 @@
 package app;
 
+import ApiPackage.QuercusDB;
+import ApiPackage.RawSyllabus;
+import ApiPackage.SyllabusNotFoundException;
+import ApiPackage.UserDB;
+import app.gui.CourseListWindow;
+import app.gui.ManualSyllabusPanel;
 import entity.Course;
 import app.gui.APITokenWindow;
 
+import java.awt.*;
 import java.util.List;
 
 public class CalendarController {
+    private UserDB userDB;
     private String apiToken;
+    private APITokenWindow apiTokenWindow; // Reference to APITokenWindow
+    private CourseListWindow courseListWindow;
+    private ManualSyllabusPanel manualSyllabusPanel;
 
-    private APITokenWindow apiTokenWindow;
-//    private CourseListWindow courseListWindow;
-//    private ManualSyllabusWindow manualSyllabusWindow;
-//    private AssignmentViewWindow assignmentViewWindow;
-//    private DownloadWindow downloadWindow;
 
-    // ... (Add variables for other windows as needed)
+    public CalendarController(APITokenWindow apiTokenWindow) {
+        this.apiTokenWindow = apiTokenWindow;
+        this.userDB = new QuercusDB();
 
-    public CalendarController() {
-        apiTokenWindow = new APITokenWindow(this);
-        apiTokenWindow.setVisible(true);
+        courseListWindow = new CourseListWindow(this);
+        courseListWindow.setVisible(false);
+        apiTokenWindow.add(courseListWindow, BorderLayout.CENTER);
+
+        manualSyllabusPanel = new ManualSyllabusPanel(this);
+        manualSyllabusPanel.setVisible(false);
+        apiTokenWindow.add(manualSyllabusPanel, BorderLayout.CENTER);
     }
+
 
     public void setAPIToken(String apiToken) {
         this.apiToken = apiToken;
-        // ... (Store API token if needed - environment variable, config file)
+        this.userDB.setAPIToken(apiToken);
 
-//        // Fetch and process courses (replace with your implementation)
-//        List<Course> courses = fetchAndProcessCourses();
+        try {
+            List<Course> courses = userDB.getCourses();
 
-        apiTokenWindow.dispose();
+            for (Course course : courses) {
+                try {
+                    RawSyllabus syllabus = userDB.getSyllabus(course.getId());
+                    course.setSyllabusFound(true);
+                } catch (SyllabusNotFoundException e) {
+                    course.setSyllabusFound(false);
+                }
+            }
 
-//        courseListWindow = new CourseListWindow(this, courses);
-//        courseListWindow.setVisible(true);
+            apiTokenWindow.showCourseListPanel(courses);
+
+        } catch (Exception ex) {
+            System.err.println("Error fetching courses: " + ex.getMessage());
+            // Improve error handling
+        }
     }
 
-//    // Placeholder - replace with your actual course fetching and processing
-//    private List<Course> fetchAndProcessCourses() {
-//        // ... (Use your QuercusDB and logic to get and process courses)
-//        // For this example, I'll just return an empty list
-//        return new ArrayList<>();
-//    }
-//
-//    public void courseSelected(Course selectedCourse) {
-//        if (selectedCourse.isSyllabusFound()) {
-//            // ... (Fetch/generate assignments and show AssignmentViewWindow)
-//            List<Assignment> assignments = generateAssignments(selectedCourse);
-//            courseListWindow.dispose();
-//            assignmentViewWindow = new AssignmentViewWindow(this, assignments);
-//            assignmentViewWindow.setVisible(true);
-//        } else {
-//            // ... (Show ManualSyllabusWindow to get syllabus input)
-//            courseListWindow.dispose();
-//            manualSyllabusWindow = new ManualSyllabusWindow(this, selectedCourse);
-//            manualSyllabusWindow.setVisible(true);
-//        }
-//    }
+    public void processManualSyllabus(RawSyllabus rawSyllabus) {
+        //    need to store the rawSyllabus data somewhere
+        //    (e.g., in the corresponding Course object, or in a separate data structure).
+        //    For now, let's just print it to the console:
+        System.out.println("Received Syllabus: " + rawSyllabus.rawSyllabusData);
 
-    // ... (Other methods for handling events from other windows)
+        // 3.  For now, we'll just stay on the ManualSyllabusPanel.
+        //     Later, you'll transition to the AssignmentViewPanel here.
+    }
+
+    public void showManualSyllabusPanel(String courseId) {
+        manualSyllabusPanel.setCourseId(courseId);
+
+        courseListWindow.setVisible(false);
+        manualSyllabusPanel.setVisible(true);
+    }
 }

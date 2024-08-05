@@ -1,35 +1,44 @@
 package app.gui;
 
+import ApiPackage.QuercusDB;
+import ApiPackage.RawSyllabus;
+import ApiPackage.SyllabusNotFoundException;
+import ApiPackage.UserDB;
+import entity.Course;
+import app.CalendarController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import app.CalendarController;
+import java.util.List;
 
 public class APITokenWindow extends JFrame {
     private JTextField apiTokenField;
     private JButton submitButton;
-    private CalendarController controller; // Reference to your controller
+    private CalendarController controller;
+    private CourseListWindow courseListWindow;
 
     public static void main(String[] args) {
-        // Run the APITokenWindow creation on the EDT
-        SwingUtilities.invokeLater(() -> {
-            CalendarController controller = new CalendarController(); // Create controller instance
-            new APITokenWindow(controller).setVisible(true);
-        });
+        SwingUtilities.invokeLater(APITokenWindow::new);
     }
 
-    public APITokenWindow(CalendarController controller) {
-        this.controller = controller; // Inject the controller
+    public APITokenWindow() {
+        // Initialize controller
+        this.controller = new CalendarController(this); // Pass 'this' (APITokenWindow)
+
+        // Window setup
         setTitle("Enter Quercus API Token");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new FlowLayout());
+        setLayout(new BorderLayout());
 
         // API Token Input
+        JPanel inputPanel = new JPanel(new FlowLayout());
         JLabel label = new JLabel("API Token:");
-        apiTokenField = new JTextField(30); // Adjust size as needed
-        add(label);
-        add(apiTokenField);
+        apiTokenField = new JTextField(30);
+        inputPanel.add(label);
+        inputPanel.add(apiTokenField);
+        add(inputPanel, BorderLayout.NORTH);
 
         // Submit Button
         submitButton = new JButton("Submit");
@@ -39,22 +48,33 @@ public class APITokenWindow extends JFrame {
                 handleSubmit();
             }
         });
-        add(submitButton);
+        add(submitButton, BorderLayout.SOUTH);
 
-        pack(); // Automatically size the window
-        setLocationRelativeTo(null); // Center the window
+        // Initialize CourseListWindow (hidden initially)
+        courseListWindow = new CourseListWindow(controller);
+        courseListWindow.setVisible(false);
+        add(courseListWindow, BorderLayout.CENTER);
+
+        // Final window setup
+        pack();
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
     private void handleSubmit() {
         String apiToken = apiTokenField.getText();
-        // Validation (optional - add more checks if necessary)
         if (apiToken.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter an API token.");
             return;
         }
-
-        // Pass the token to the controller
         controller.setAPIToken(apiToken);
+    }
+
+    public void showCourseListPanel(List<Course> courses) {
+        courseListWindow.updateCourseList(courses);
+
+        // Transition to CourseListWindow
+        this.setVisible(false);
+        courseListWindow.setVisible(true);
     }
 }
