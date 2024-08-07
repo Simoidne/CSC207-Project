@@ -1,6 +1,6 @@
 package Tests.ApiTests;
 
-import src.main.java.ApiPackage.GeminiAPI;
+import ApiPackage.GeminiAPI;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;

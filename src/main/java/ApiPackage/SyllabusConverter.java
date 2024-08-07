@@ -19,7 +19,7 @@ public class SyllabusConverter {
         }
 
         //Creating the prompt
-        String prompt = String.format("The following content is the syllabus of a course formatted as a %s: %s. Please only return all assignments numbered in the order that they are due along with the due date, in LocalTimeDate format (yyyy-MM-ddThh:mm:ss), in the following JSONArray format:\n[{\"name\": \"<Assignment1 Name>\", \"order\": \"<Order>\", \"dueDate\": \"<Due Date>\"},\n{\"name\": \"<Assignment2 Name>\", \"order\": \"<Order>\", \"dueDate\": \"<Due Date>\"},\n...]",
+        String prompt = String.format("The following content is the syllabus of a course formatted as %s: %s. Please only return all assignments numbered in the order that they are due along with the due date, in LocalTimeDate format (yyyy-MM-ddThh:mm:ss), in the following JSONArray format:\n[{\"name\": \"<Assignment1 Name>\", \"order\": \"<Order>\", \"dueDate\": \"<Due Date>\"},\n{\"name\": \"<Assignment2 Name>\", \"order\": \"<Order>\", \"dueDate\": \"<Due Date>\"},\n...]",
                 syllabus.dataFormat,
                 syllabus.rawSyllabusData);
 
@@ -38,7 +38,7 @@ public class SyllabusConverter {
         List<Assignment> assignments = new ArrayList<>();
 
         //Ask chatbotDB to parse the response JSONObject into a usable response in string format
-        String assignmentsString = chatbotAPI.parseResponse(responseBody);
+        String assignmentsString = chatbotAPI.parseResponse(responseBody).trim();
 
         //Create a JSONObject called assignmentArray using the chatbot response string
         JSONArray assignmentsArray = new JSONArray(assignmentsString);
