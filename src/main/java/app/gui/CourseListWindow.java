@@ -29,12 +29,10 @@ public class CourseListWindow extends JPanel {
                     int index = courseList.locationToIndex(e.getPoint());
                     Course selectedCourse = listModel.getElementAt(index);
 
-                    if (!selectedCourse.isSyllabusFound()) {
-                        controller.showManualSyllabusPanel(selectedCourse.getId());
+                    if (selectedCourse.isSyllabusFound()) {
+                        controller.showAssignmentViewPanel(selectedCourse.getId());
                     } else {
-                        // Handle the case where a syllabus IS available (optional):
-                        // You might show the AssignmentViewPanel, display a message, etc.
-                        System.out.println("Syllabus is already available for this course.");
+                        controller.showManualSyllabusPanel(selectedCourse.getId());
                     }
                 }
             }
