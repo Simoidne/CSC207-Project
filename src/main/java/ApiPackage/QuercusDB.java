@@ -2,6 +2,7 @@ package ApiPackage;
 
 import entity.Course;
 import entity.Assignment;
+import ApiPackage.RawSyllabus;
 
 import okhttp3.*;
 import org.json.JSONArray;
@@ -93,7 +94,7 @@ public class QuercusDB implements UserDB{
 
 
     //Getting Syllabus Stuff Below
-    private RawSyllabus getSyllabus(String courseId) {
+    public RawSyllabus getSyllabus(String courseId) {
         boolean syllabusFound = true;
         String dataFormat = "";
         String syllabusData = "";

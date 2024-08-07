@@ -11,6 +11,7 @@ public class Course {
     private String id;
     private String name;
     private List<Assignment> assignments;
+    private boolean syllabusFound;
 
     /**
      * Constructs a new Course object.
@@ -22,6 +23,7 @@ public class Course {
         this.id = id;
         this.name = name;
         this.assignments = new ArrayList<>();
+        this.syllabusFound = false;
     }
 
     /**
@@ -51,6 +53,10 @@ public class Course {
         return assignments;
     }
 
+    public boolean isSyllabusFound() {
+        return syllabusFound;
+    }
+
     /**
      * Adds an assignment to the course.
      *
@@ -62,5 +68,9 @@ public class Course {
 
     public void setAssignments(List<Assignment> assignments) {
         this.assignments = assignments;
+    }
+
+    public void setSyllabusFound(boolean syllabusFound) {
+        this.syllabusFound = syllabusFound;
     }
 }

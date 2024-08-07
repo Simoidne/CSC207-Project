@@ -1,6 +1,7 @@
 package ApiPackage;
 
 import entity.Assignment;
+import ApiPackage.RawSyllabus;
 
 import org.json.JSONArray;
 import org.json.JSONException;
