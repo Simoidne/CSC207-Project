@@ -1,6 +1,5 @@
 package app.gui;
 
-import interface_adaptor.ICSConverter; // Import your ICSConverter class
 import app.CalendarController;
 
 import javax.swing.*;
@@ -21,10 +20,15 @@ public class DownloadPanel extends JPanel {
         this.controller = controller;
         setLayout(new FlowLayout()); // Or any layout you prefer
 
+        // displays message
         JLabel messageLabel = new JLabel("Your calendar is ready! Click below to download:");
+        // adds messageLabel
         add(messageLabel);
 
+        // creates a JButton for the download action
         downloadButton = new JButton("Download Calendar (.ics)");
+
+        // handle click event
         downloadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -34,11 +38,16 @@ public class DownloadPanel extends JPanel {
         add(downloadButton);
     }
 
+    // download process
     private void handleDownload() {
+        // opens file chooser to choose save location
         JFileChooser fileChooser = new JFileChooser();
+
+        // sets the title and default name
         fileChooser.setDialogTitle("Save Calendar File");
         fileChooser.setSelectedFile(new File("calendar.ics"));
 
+        // shows the save dialog and provide actions
         int userSelection = fileChooser.showSaveDialog(this);
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {

@@ -21,20 +21,25 @@ public class AssignmentViewPanel extends JPanel {
         this.controller = controller;
         setLayout(new BorderLayout());
 
+        //create table model with column name
         tableModel = new DefaultTableModel(new Object[]{"Assignment Name", "Due Date"}, 0);
-        assignmentTable = new JTable(tableModel);
 
+        //create the JTable
+        assignmentTable = new JTable(tableModel);
         assignmentTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
         assignmentTable.setFont(new Font("Arial", Font.PLAIN, 12));
         assignmentTable.setRowHeight(25);
 
+        //centers the text
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         assignmentTable.setDefaultRenderer(Object.class, centerRenderer);
 
+        //add the table to a scroll pane
         JScrollPane scrollPane = new JScrollPane(assignmentTable);
         add(scrollPane, BorderLayout.CENTER);
 
+        //generates a next button
         nextButton = new JButton("Proceed to Download");
         nextButton.addActionListener(new ActionListener() {
             @Override
@@ -45,6 +50,7 @@ public class AssignmentViewPanel extends JPanel {
         add(nextButton, BorderLayout.SOUTH);
     }
 
+    //method to update the table with assignment
     public void updateAssignments(List<Assignment> assignments) {
         tableModel.setRowCount(0);
         for (Assignment assignment : assignments) {

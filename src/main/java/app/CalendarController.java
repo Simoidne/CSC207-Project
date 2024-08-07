@@ -49,15 +49,18 @@ public class CalendarController {
         this.userDB.setAPIToken(apiToken);
 
         try {
-            // Fetch courses from QuercusDB
+            // Fetch the list of courses from QuercusDB
             List<Course> courses = userDB.getCourses();
 
             // Process each course to check if the syllabus is available
             for (Course course : courses) {
                 try {
+                    // attempt to retrieve the syllabus
                     RawSyllabus syllabus = userDB.getSyllabus(course.getId());
+                    // attempt successful: SyllabusFound is true
                     course.setSyllabusFound(true);
                 } catch (SyllabusNotFoundException e) {
+                    // if an exception is caught, set SyllabusFound to false
                     course.setSyllabusFound(false);
                 }
             }
@@ -66,14 +69,13 @@ public class CalendarController {
 
         } catch (Exception ex) {
             System.err.println("Error fetching courses: " + ex.getMessage());
-            // Add more robust error handling (e.g., dialog box)
         }
     }
 
     // Processes the manually entered syllabus
     public void processManualSyllabus(RawSyllabus rawSyllabus) {
         try {
-            // Extract assignments using SyllabusConverter
+            // creates a SyllabusConverter to extract assignments from the RawSyllabus
             SyllabusConverter syllabusConverter = new SyllabusConverter();
             List<Assignment> assignments = syllabusConverter.getAssignments(rawSyllabus);
 
@@ -86,7 +88,6 @@ public class CalendarController {
 
         } catch (SyllabusNotFoundException e) {
             System.err.println("Error processing syllabus: " + e.getMessage());
-            // Handle the exception appropriately
         }
     }
 
@@ -109,9 +110,6 @@ public class CalendarController {
             SyllabusConverter syllabusConverter = new SyllabusConverter();
             List<Assignment> assignments = syllabusConverter.getAssignments(syllabus);
 
-            // Optional: Update the corresponding Course object with assignments
-            // ... (Logic to find and update the Course object if needed)
-
             // Update the AssignmentViewPanel with extracted assignments
             assignmentViewPanel.updateAssignments(assignments);
 
@@ -120,7 +118,6 @@ public class CalendarController {
             assignmentViewPanel.setVisible(true);
 
         } catch (SyllabusNotFoundException e) {
-            // Handle the exception (this might not be necessary if the syllabus is guaranteed to exist)
             System.err.println("Error fetching or processing syllabus: " + e.getMessage());
         }
     }
