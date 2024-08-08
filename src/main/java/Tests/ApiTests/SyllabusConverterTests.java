@@ -357,10 +357,13 @@ public class SyllabusConverterTests {
 
         List<Assignment> assignmentsActual = converter.getAssignments(syllabus);
         for (Assignment assignmentActual : assignmentsActual) {
-            if (assignmentActual.getDueDate() == expectedAssignment.getDueDate() &&
+            System.out.println("Assignment Name: " + assignmentActual.getName());
+            if (assignmentActual.getDueDate().toLocalDate() == expectedAssignment.getDueDate().toLocalDate() &&
                     Objects.equals(assignmentActual.getCourseId(), expectedAssignment.getCourseId())) {
                 count++;
             }
+            System.out.println(assignmentActual.getDueDate());
+            System.out.println(assignmentActual.getCourseId());
         }
 
         Assertions.assertEquals(1, count);

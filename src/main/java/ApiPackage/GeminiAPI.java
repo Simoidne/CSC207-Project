@@ -11,7 +11,7 @@ public class GeminiAPI implements ChatbotAPI {
 
     //TODO get rid of API_TOKEN before git commit
     //System.getenv("API_TOKEN")
-    private static final String API_TOKEN= System.getenv("API_TOKEN");
+    private static final String API_TOKEN = System.getenv("API_TOKEN");
 
     @Override
     public JSONObject getResponse(String prompt) {
