@@ -11,6 +11,6 @@ public class RawSyllabus {
         this.dataFormat = dataFormat;
         this.rawSyllabusData = rawSyllabusData;
         this.courseId = courseId;
-        this.syllabusFound = false;
+        this.syllabusFound = syllabusFound;
     }
 }

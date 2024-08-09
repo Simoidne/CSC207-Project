@@ -1,23 +1,30 @@
 package ApiPackage;
 
 import okhttp3.*;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 public class GeminiAPI implements ChatbotAPI {
 
     //TODO get rid of API_TOKEN before git commit
+    //System.getenv("API_TOKEN")
     private static final String API_TOKEN = System.getenv("API_TOKEN");
 
     @Override
     public JSONObject getResponse(String prompt) {
-        String content = String.format("{\"role\": \"user\"," +
-                                        "\"parts\": [{\"text\": \"%s\"}]}", prompt);
+//        String content = String.format("{\"role\": \"user\"," +
+//                                        "\"parts\": [{\"text\": \"%s\"}]}", prompt);
+//        System.out.println(content);
+//
+//        JSONObject requestBody = new JSONObject(String.format("{\"contents\": %s}", content));
 
-        JSONObject requestBody = new JSONObject(String.format("{\"contents\": %s}", content));
+        JSONObject requestBody = new JSONObject().put("contents",
+                                    new JSONObject().put("role", "user")
+                                                    .put("parts",
+                                                            new JSONArray().put(new JSONObject().put("text", prompt))));
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
