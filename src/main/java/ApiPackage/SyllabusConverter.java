@@ -21,7 +21,7 @@ public class SyllabusConverter {
         }
 
         //Creating the prompt
-        String prompt = String.format("The following content is the syllabus of a course formatted as %s: %s. Please only return all assignments numbered in the order that they are due along with the due date, in LocalTimeDate format (yyyy-MM-ddThh:mm:ss), in the following JSONArray format:\n[{\"name\": \"<Assignment1 Name>\", \"order\": \"<Order>\", \"dueDate\": \"<Due Date>\"},\n{\"name\": \"<Assignment2 Name>\", \"order\": \"<Order>\", \"dueDate\": \"<Due Date>\"},\n...]\n Do not provide any explanation or any other labels under any circumstance.",
+        String prompt = String.format("The following content is the syllabus of a course formatted as %s: %s. Please only return all assignments numbered in the order that they are due along with the due date, in LocalTimeDate format (yyyy-MM-ddThh:mm:ss), in the following JSONArray format:\n[{\"name\": \"<Assignment1 Name>\", \"order\": \"<Order>\", \"dueDate\": \"<Due Date>\"},\n{\"name\": \"<Assignment2 Name>\", \"order\": \"<Order>\", \"dueDate\": \"<Due Date>\"},\n...]\n Do not provide any explanation or any other labels under any circumstance. Make sure that all values in the JSON are strings.",
                 syllabus.dataFormat,
                 syllabus.rawSyllabusData);
 
@@ -60,17 +60,17 @@ public class SyllabusConverter {
 
     private String cleanStringIntoJSONArrayString(String stringJSONArray) {
         int startIndex = 0;
+        boolean inJSONArray = false;
         int endIndex = -1;
-        System.out.println(stringJSONArray);
-        System.out.println(String.format("stringJSONArray.length(): %d\n", stringJSONArray.length()));
 
         for(int i = 0; i < stringJSONArray.length(); i++){
-            if (stringJSONArray.charAt(i) == '[') {
+            if (stringJSONArray.charAt(i) == '[' && !inJSONArray) {
                 startIndex = i;
-                break;
+            } else if (stringJSONArray.charAt(i) == ']') {
+                endIndex = i;
             }
         }
 
-        return stringJSONArray.substring(startIndex - 1);
+        return stringJSONArray.substring(startIndex, endIndex + 1);
     }
 }
