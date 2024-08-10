@@ -18,22 +18,32 @@ import java.util.Scanner;
 public class QuercusDB implements UserDB{
     private static String API_TOKEN;
 
+    @Override
     public void setAPIToken(String token) {
         API_TOKEN = token;
     }
 
     @Override
+    public boolean hasAPIToken() {
+        return API_TOKEN != null;
+    }
+
+
+    @Override
     public Course getCourse(String courseId) throws NoAPITokenException {
-        if (API_TOKEN == null) {
+        if (!this.hasAPIToken()) {
             throw new NoAPITokenException();
         }
+
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url(String.format("https://q.utoronto.ca/api/v1/courses/%s?", courseId))
-                .addHeader("Authorization", API_TOKEN)
+                .url(String.format("https://q.utoronto.ca/api/v1/courses/%s", courseId))
+                .method("GET", null)
+                .addHeader("Authorization", "Bearer " + API_TOKEN)
                 .addHeader("Content-Type", "application/json")
                 .build();
+        System.out.println(request);
         try {
             Response response = client.newCall(request).execute();
             System.out.println(response);
@@ -69,12 +79,16 @@ public class QuercusDB implements UserDB{
     }
 
     @Override
-    public List<Course> getCourses() {
+    public List<Course> getCourses() throws NoAPITokenException {
+        if (!this.hasAPIToken()) {
+            throw new NoAPITokenException();
+        }
+
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
                 .url("https://q.utoronto.ca/api/v1/courses?enrollment_state=active")
-                .addHeader("Authorization", API_TOKEN)
+                .addHeader("Authorization", "Bearer " + API_TOKEN)
                 .addHeader("Content-Type", "application/json")
                 .build();
         try {
@@ -87,7 +101,7 @@ public class QuercusDB implements UserDB{
             } else {
                 throw new RuntimeException(response.message());
             }
-        } catch (IOException | JSONException | NoAPITokenException e) {
+        } catch (IOException | JSONException e) {
             throw new RuntimeException(e);
         }
     }
@@ -119,7 +133,7 @@ public class QuercusDB implements UserDB{
                 .build();
         Request request = new Request.Builder()
                 .url(String.format("https://q.utoronto.ca/api/v1/courses/%s?include[]=syllabus_body", courseId))
-                .addHeader("Authorization", API_TOKEN)
+                .addHeader("Authorization", "Bearer " +API_TOKEN)
                 .addHeader("Content-Type", "application/json")
                 .build();
         try {
@@ -127,7 +141,7 @@ public class QuercusDB implements UserDB{
             System.out.println(response);
             JSONObject responseBody = new JSONObject(response.body().string());
 
-            if (responseBody.getInt("status_code") == 200) {
+            if (response.code() == 200) {
                 //Check if the syllabus was found
                 if (!responseBody.has("syllabus_body")) {
                     throw new SyllabusNotFoundException();

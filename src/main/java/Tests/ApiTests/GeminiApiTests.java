@@ -3,6 +3,7 @@ package Tests.ApiTests;
 import ApiPackage.GeminiAPI;
 import org.json.JSONObject;
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,7 +61,7 @@ public class GeminiApiTests {
                 "}");
 
         JSONObject actualResponseJSON = testAPI.getResponse("Give me a 1 and nothing else.");
-        Assert.assertEquals(expected.toString(), actualResponseJSON.toString());
+        Assertions.assertEquals(expected.toString(), actualResponseJSON.toString());
     }
 
     @Test
@@ -71,6 +72,6 @@ public class GeminiApiTests {
 
         JSONObject responseJSON = testAPI.getResponse("Give me a 1 and nothing else.");
         actualResponse = testAPI.parseResponse(responseJSON).replaceAll("\\s+", "");
-        Assert.assertEquals(expected, actualResponse);
+        Assertions.assertEquals(expected, actualResponse);
     }
 }
