@@ -172,7 +172,7 @@ public class QuercusDB implements UserDB{
         List<Course> courseList = new ArrayList<>();
         for (int i = 0; i < courses.length(); i++) {
             JSONObject course = courses.getJSONObject(i);
-            courseList.add(this.getCourse(course.getString("id")));
+            courseList.add(this.getCourse(String.valueOf(course.getInt("id"))));
         }
         return courseList;
     }
