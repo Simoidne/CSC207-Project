@@ -27,6 +27,8 @@ public class GeminiAPI implements ChatbotAPI {
                                                     .put("parts",
                                                             new JSONArray().put(new JSONObject().put("text", prompt))));
 
+        System.out.println("Request to Gemini:\n" + requestBody.toString());
+
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .connectTimeout(15, TimeUnit.MINUTES)
                 .readTimeout(15, TimeUnit.MINUTES)
