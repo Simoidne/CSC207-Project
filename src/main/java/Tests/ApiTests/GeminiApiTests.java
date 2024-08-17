@@ -1,4 +1,4 @@
-package Tests.ApiTests;
+package ApiTests;
 
 import ApiPackage.GeminiAPI;
 import org.json.JSONObject;

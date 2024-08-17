@@ -1,9 +1,8 @@
-package interface_adaptor;
+package use_case;
 
 import entity.Calendar;
 import entity.PlanItem;
 import entity.WeeklyPlanner;
-import interface_adaptor.ICSFileHandler;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -1,10 +1,10 @@
 package main_component;
 
-import interface_adaptor.ICSFileHandler;
+import use_case.ICSFileHandler;
 import entity.Assignment;
 import entity.Course;
 import entity.Event;
-import interface_adaptor.ICSConverter;
+import use_case.ICSConverter;
 import entity.Calendar;
 import entity.WeeklyPlanner;
 

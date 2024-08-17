@@ -1,6 +1,5 @@
 package app.gui;
 
-import interface_adaptor.ICSConverter; // Import your ICSConverter class
 import app.CalendarController;
 
 import javax.swing.*;

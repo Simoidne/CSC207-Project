@@ -1,4 +1,4 @@
-package interface_adaptor;
+package use_case;
 
 import java.io.IOException;
 import java.nio.file.Files;
