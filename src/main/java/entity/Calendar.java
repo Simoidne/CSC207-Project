@@ -20,9 +20,6 @@ public class Calendar {
         this.weeks.add(week);
     }
 
-    public void removeWeek(LocalDateTime weekStartDate) {
-        this.weeks.removeIf(week -> week.getWeekStartDate().equals(weekStartDate));
-    }
 
     public List<WeeklyPlanner> getWeeks() {
         return java.util.Collections.unmodifiableList(weeks);
