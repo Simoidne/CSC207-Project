@@ -6,12 +6,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class GeminiAPI implements ChatbotAPI {
 
     //TODO get rid of API_TOKEN before git commit
     //System.getenv("API_TOKEN")
-    private static final String API_TOKEN = System.getenv("API_TOKEN");
+    private static final String API_TOKEN = System.getenv("API_TOKEN");;
 
     @Override
     public JSONObject getResponse(String prompt) {
@@ -27,6 +28,9 @@ public class GeminiAPI implements ChatbotAPI {
                                                             new JSONArray().put(new JSONObject().put("text", prompt))));
 
         OkHttpClient client = new OkHttpClient().newBuilder()
+                .connectTimeout(15, TimeUnit.MINUTES)
+                .readTimeout(15, TimeUnit.MINUTES)
+                .writeTimeout(15, TimeUnit.MINUTES)
                 .build();
 
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), requestBody.toString());

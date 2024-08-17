@@ -42,8 +42,18 @@ public class SyllabusConverter {
         //Ask chatbotDB to parse the response JSONObject into a usable response in string format
         String assignmentsString = chatbotAPI.parseResponse(responseBody);
 
-        //Clean the response
-        assignmentsString = this.cleanStringIntoJSONArrayString(assignmentsString);
+        // Print BEFORE cleaning:
+        System.out.println("assignmentsString (BEFORE cleaning):\n" + assignmentsString);
+
+
+        // Print AFTER cleaning:
+        System.out.println("\nassignmentsString (AFTER cleaning):\n" + assignmentsString);
+
+
+        System.out.println("assignmentsString before cleaning: " + assignmentsString);
+
+        // Clean the response
+        assignmentsString = this.cleanStringIntoJSONArrayString(assignmentsString).trim();
 
         //Create a JSONObject called assignmentArray using the chatbot response string
         JSONArray assignmentsArray = new JSONArray(assignmentsString);

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class QuercusDB implements UserDB{
     private static String API_TOKEN;
@@ -36,7 +37,10 @@ public class QuercusDB implements UserDB{
         }
 
         OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
+            .connectTimeout(15, TimeUnit.MINUTES) // Set connection timeout to 15 seconds
+            .readTimeout(15, TimeUnit.MINUTES)    // Set read timeout to 15 seconds
+            .writeTimeout(15, TimeUnit.MINUTES)   // Set write timeout to 15 seconds
+            .build();
         Request request = new Request.Builder()
                 .url(String.format("https://q.utoronto.ca/api/v1/courses/%s", courseId))
                 .method("GET", null)
@@ -130,6 +134,9 @@ public class QuercusDB implements UserDB{
     //it throws a SyllabusNotFoundException
     private String getSyllabusHTML(String courseId) throws SyllabusNotFoundException {
         OkHttpClient client = new OkHttpClient().newBuilder()
+                .connectTimeout(500, TimeUnit.SECONDS) // Set connection timeout to 15 seconds
+                .readTimeout(500, TimeUnit.SECONDS)    // Set read timeout to 15 seconds
+                .writeTimeout(500, TimeUnit.SECONDS)   // Set write timeout to 15 seconds
                 .build();
         Request request = new Request.Builder()
                 .url(String.format("https://q.utoronto.ca/api/v1/courses/%s?include[]=syllabus_body", courseId))

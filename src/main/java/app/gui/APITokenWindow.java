@@ -62,7 +62,7 @@ public class APITokenWindow extends JFrame {
     }
 
     private void handleSubmit() {
-        String apiToken = apiTokenField.getText();
+        String apiToken = apiTokenField.getText().trim();
         if (apiToken.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter an API token.");
             return;
