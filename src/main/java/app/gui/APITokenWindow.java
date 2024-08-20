@@ -50,11 +50,6 @@ public class APITokenWindow extends JFrame {
         });
         add(submitButton, BorderLayout.SOUTH);
 
-        // Initialize CourseListWindow (hidden initially)
-        courseListWindow = new CourseListWindow(controller);
-        courseListWindow.setVisible(false);
-        add(courseListWindow, BorderLayout.CENTER);
-
         // Final window setup
         pack();
         setLocationRelativeTo(null);
@@ -70,11 +65,4 @@ public class APITokenWindow extends JFrame {
         controller.setAPIToken(apiToken);
     }
 
-    public void showCourseListPanel(List<Course> courses) {
-        courseListWindow.updateCourseList(courses);
-
-        // Transition to CourseListWindow
-        this.setVisible(false);
-        courseListWindow.setVisible(true);
-    }
 }
