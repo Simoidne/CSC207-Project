@@ -1,8 +1,8 @@
 package use_case;
 
-import interface_adaptor.ICSConverter;
+import use_case.ICSConverter;
 import entity.Event;
-import interface_adaptor.ICSFileHandler;
+import use_case.ICSFileHandler;
 import entity.Calendar;
 
 import java.io.File;

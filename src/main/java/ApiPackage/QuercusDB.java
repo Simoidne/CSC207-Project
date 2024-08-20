@@ -32,7 +32,7 @@ public class QuercusDB implements UserDB{
 
     @Override
     public Course getCourse(String courseId) throws NoAPITokenException {
-        if (!this.hasAPIToken()) {
+        if (!hasAPIToken()) {
             throw new NoAPITokenException();
         }
 
@@ -84,7 +84,7 @@ public class QuercusDB implements UserDB{
 
     @Override
     public List<Course> getCourses() throws NoAPITokenException {
-        if (!this.hasAPIToken()) {
+        if (!hasAPIToken()) {
             throw new NoAPITokenException();
         }
 
@@ -101,7 +101,7 @@ public class QuercusDB implements UserDB{
             JSONArray responseBody = new JSONArray(response.body().string());
 
             if (response.code() == 200) {
-                return this.compileCourses(responseBody);
+                return compileCourses(responseBody);
             } else {
                 throw new RuntimeException(response.message());
             }

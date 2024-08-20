@@ -7,8 +7,9 @@ import ApiPackage.UserDB;
 import app.gui.*;
 import entity.Assignment;
 import entity.Course;
-import ApiPackage.SyllabusConverter; // Make sure to import SyllabusConverter
+import ApiPackage.SyllabusConverter;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
@@ -16,31 +17,49 @@ public class CalendarController {
     private UserDB userDB;
     private String apiToken;
     private APITokenWindow apiTokenWindow;
-    private CourseListWindow courseListWindow;
-    private ManualSyllabusPanel manualSyllabusPanel;
-    private AssignmentViewPanel assignmentViewPanel;
-    private DownloadPanel downloadPanel;
-
+    private JFrame courseListWindow;
+    private JFrame manualSyllabusPanel;
+    private JFrame assignmentViewPanel;
+    private JFrame downloadPanel;
     public CalendarController(APITokenWindow apiTokenWindow) {
         this.apiTokenWindow = apiTokenWindow;
         this.userDB = new QuercusDB();
 
-        // Initialize and hide panels
-        courseListWindow = new CourseListWindow(this);
-        courseListWindow.setVisible(false);
-        apiTokenWindow.add(courseListWindow, BorderLayout.CENTER);
+        initializeWindows();
+    }
 
-        manualSyllabusPanel = new ManualSyllabusPanel(this);
-        manualSyllabusPanel.setVisible(false);
-        apiTokenWindow.add(manualSyllabusPanel, BorderLayout.CENTER);
+    private void initializeWindows() {
+        // --- Course List Window ---
+        courseListWindow = new JFrame("Course List");
+        courseListWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        courseListWindow.setContentPane(new CourseListWindow(this));
+        courseListWindow.pack();
+        courseListWindow.setLocationRelativeTo(null);
+        courseListWindow.setVisible(false); // Initially hidden
 
-        assignmentViewPanel = new AssignmentViewPanel(this);
-        assignmentViewPanel.setVisible(false);
-        apiTokenWindow.add(assignmentViewPanel, BorderLayout.CENTER);
+        // --- Manual Syllabus Panel ---
+        manualSyllabusPanel = new JFrame("Enter Syllabus");
+        manualSyllabusPanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        manualSyllabusPanel.setContentPane(new ManualSyllabusPanel(this));
+        manualSyllabusPanel.pack();
+        manualSyllabusPanel.setLocationRelativeTo(null);
+        manualSyllabusPanel.setVisible(false); // Initially hidden
 
-        downloadPanel = new DownloadPanel(this);
-        downloadPanel.setVisible(false);
-        apiTokenWindow.add(downloadPanel, BorderLayout.CENTER);
+        // --- Assignment View Panel ---
+        assignmentViewPanel = new JFrame("View Assignments");
+        assignmentViewPanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        assignmentViewPanel.setContentPane(new AssignmentViewPanel(this));
+        assignmentViewPanel.pack();
+        assignmentViewPanel.setLocationRelativeTo(null);
+        assignmentViewPanel.setVisible(false); // Initially hidden
+
+        // --- Download Panel ---
+        downloadPanel = new JFrame("Download Calendar");
+        downloadPanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        downloadPanel.setContentPane(new DownloadPanel(this));
+        downloadPanel.pack();
+        downloadPanel.setLocationRelativeTo(null);
+        downloadPanel.setVisible(false); // Initially hidden
     }
 
     // Sets the API token, fetches courses, and updates the CourseListWindow
@@ -62,7 +81,7 @@ public class CalendarController {
                 }
             }
             // Update the CourseListWindow and make it visible
-            apiTokenWindow.showCourseListPanel(courses);
+            showCourseListPanel(courses);
 
         } catch (Exception ex) {
             System.err.println("Error fetching courses: " + ex.getMessage());
@@ -70,64 +89,54 @@ public class CalendarController {
         }
     }
 
+
     // Processes the manually entered syllabus
     public void processManualSyllabus(RawSyllabus rawSyllabus) {
         try {
-            // Extract assignments using SyllabusConverter
             SyllabusConverter syllabusConverter = new SyllabusConverter();
             List<Assignment> assignments = syllabusConverter.getAssignments(rawSyllabus);
 
-            // Update the AssignmentViewPanel with the extracted assignments
-            assignmentViewPanel.updateAssignments(assignments);
+            // Correct way to access and update AssignmentViewPanel from CalendarController:
+            ((AssignmentViewPanel) assignmentViewPanel.getContentPane()).updateAssignments(assignments);
 
-            // Show the AssignmentViewPanel and hide the ManualSyllabusPanel
-            manualSyllabusPanel.setVisible(false);
             assignmentViewPanel.setVisible(true);
 
         } catch (SyllabusNotFoundException e) {
             System.err.println("Error processing syllabus: " + e.getMessage());
-            // Handle the exception appropriately
         }
+    }
+
+
+    public void showCourseListPanel(List<Course> courses) {
+        courseListWindow.setTitle("Course List");
+        ((CourseListWindow) courseListWindow.getContentPane()).updateCourseList(courses);
+        courseListWindow.setVisible(true);
     }
 
     // Shows the ManualSyllabusPanel for manual syllabus input
     public void showManualSyllabusPanel(String courseId) {
-        manualSyllabusPanel.setCourseId(courseId); // Set the course ID for the panel
-
-        // Hide the CourseListWindow and show the ManualSyllabusPanel
-        courseListWindow.setVisible(false);
+        manualSyllabusPanel.setTitle("Enter Syllabus for Course ID: " + courseId);
+        ((ManualSyllabusPanel) manualSyllabusPanel.getContentPane()).setCourseId(courseId);
         manualSyllabusPanel.setVisible(true);
     }
 
-    // Shows the AssignmentViewPanel (called from CourseListWindow)
     public void showAssignmentViewPanel(String courseId) {
         try {
-            // Fetch the syllabus from QuercusDB
             RawSyllabus syllabus = userDB.getSyllabus(courseId);
-
-            // Extract assignments from the syllabus using SyllabusConverter
             SyllabusConverter syllabusConverter = new SyllabusConverter();
             List<Assignment> assignments = syllabusConverter.getAssignments(syllabus);
 
-            // Optional: Update the corresponding Course object with assignments
-            // ... (Logic to find and update the Course object if needed)
-
-            // Update the AssignmentViewPanel with extracted assignments
-            assignmentViewPanel.updateAssignments(assignments);
-
-            // Hide the CourseListWindow and show the AssignmentViewPanel
-            courseListWindow.setVisible(false);
+            assignmentViewPanel.setTitle("Assignments for Course ID: " + courseId);
+            ((AssignmentViewPanel) assignmentViewPanel.getContentPane()).updateAssignments(assignments);
             assignmentViewPanel.setVisible(true);
 
         } catch (SyllabusNotFoundException e) {
-            // Handle the exception (this might not be necessary if the syllabus is guaranteed to exist)
             System.err.println("Error fetching or processing syllabus: " + e.getMessage());
         }
     }
 
     // Placeholder method to show the DownloadPanel (Window 5)
     public void showDownloadPanel() {
-        assignmentViewPanel.setVisible(false);
         downloadPanel.setVisible(true);
     }
 }

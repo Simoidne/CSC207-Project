@@ -2,6 +2,7 @@ package ApiPackage;
 
 import entity.Assignment;
 import ApiPackage.RawSyllabus;
+import ApiPackage.SyllabusNotFoundException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,12 +31,13 @@ public class SyllabusConverter {
         //Get the JSONObject from the API call using the prompt
         JSONObject responseBody = chatbotAPI.getResponse(prompt);
 
-        return this.fromResponseToAssignments(responseBody, syllabus.courseId, chatbotAPI);
+        return fromResponseToAssignments(responseBody, syllabus.courseId, chatbotAPI);
     }
 
     private List<Assignment> fromResponseToAssignments(JSONObject responseBody,
                                                        String courseId,
-                                                       ChatbotAPI chatbotAPI) throws JSONException {
+                                                       ChatbotAPI chatbotAPI)
+            throws JSONException, SyllabusNotFoundException {
 
         List<Assignment> assignments = new ArrayList<>();
 
@@ -45,18 +47,20 @@ public class SyllabusConverter {
         // Print BEFORE cleaning:
         System.out.println("assignmentsString (BEFORE cleaning):\n" + assignmentsString);
 
+        // Clean the response
+        assignmentsString = this.cleanStringIntoJSONArrayString(assignmentsString).trim();
 
         // Print AFTER cleaning:
         System.out.println("\nassignmentsString (AFTER cleaning):\n" + assignmentsString);
 
+        JSONArray assignmentsArray;
 
-        System.out.println("assignmentsString before cleaning: " + assignmentsString);
+        if (!assignmentsString.isEmpty()) {
+            assignmentsArray = new JSONArray(assignmentsString);
+        } else {
+            throw new SyllabusNotFoundException();
+        }
 
-        // Clean the response
-        assignmentsString = this.cleanStringIntoJSONArrayString(assignmentsString).trim();
-
-        //Create a JSONObject called assignmentArray using the chatbot response string
-        JSONArray assignmentsArray = new JSONArray(assignmentsString);
         for (int i = 0; i < assignmentsArray.length(); i++) {
             JSONObject assignmentJSON = assignmentsArray.getJSONObject(i);
             Assignment assignment = new Assignment(assignmentJSON.getString("order"),
