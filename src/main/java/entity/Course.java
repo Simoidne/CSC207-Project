@@ -73,4 +73,9 @@ public class Course {
     public void setSyllabusFound(boolean syllabusFound) {
         this.syllabusFound = syllabusFound;
     }
+
+    @Override
+    public String toString() {
+        return this.name;  // Or any other string representation you want
+    }
 }
